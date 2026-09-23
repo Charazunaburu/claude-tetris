@@ -1,0 +1,62 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Issue Triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__update_issue,mcp__github__create_issue_comment"
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} del repositorio
+            ${{ github.repository }} (un juego de Tetris en JavaScript vanilla; lee
+            CLAUDE.md, game.js, index.html y style.css del checkout para entender la
+            arquitectura antes de diagnosticar).
+
+            Pasos:
+            1. Usa mcp__github__get_issue para obtener título, cuerpo y labels actuales
+               del issue #${{ github.event.issue.number }}.
+            2. Usa mcp__github__get_issue_comments para ver si ya existe un comentario
+               tuyo anterior (busca el marcador HTML `<!-- claude-triage -->`). Si el
+               issue fue editado y ya diagnosticaste antes, en el nuevo comentario indica
+               solo qué cambia respecto al análisis previo en vez de repetirlo entero.
+            3. Clasifica el issue eligiendo labels SOLO de esta lista (no inventes otros
+               ni intentes crear labels nuevos):
+               - Tipo: bug, enhancement, question, documentation
+               - Área: area:rendering, area:input, area:pieces-rotation,
+                 area:collision-board, area:score-level, area:game-loop
+               Elige un tipo y, si aplica, una o más áreas según los archivos/funciones
+               involucrados (usa las invariantes descritas en CLAUDE.md como guía).
+            4. Aplica los labels con mcp__github__update_issue, combinando los labels que
+               ya tenía el issue (de get_issue) con los nuevos que elegiste — no elimines
+               labels ajenos a esta clasificación que ya estuvieran puestos manualmente.
+            5. Publica un comentario en español con mcp__github__create_issue_comment que
+               empiece con el marcador oculto `<!-- claude-triage -->` y contenga:
+               - **Resumen**: qué reporta o pide el issue, en una frase.
+               - **Área/archivos afectados**: funciones y archivos concretos
+                 (ej. `collide()` en game.js, `<canvas id="board">` en index.html).
+               - **Diagnóstico**: causa probable o consideración de diseño relevante,
+                 apoyándote en las invariantes de CLAUDE.md si aplica.
+               - **Próximos pasos sugeridos**: qué habría que tocar para implementar la
+                 solución (sin escribir código todavía, solo la dirección a seguir).
+
+            No modifiques ningún archivo del repositorio. No implementes la solución.
+            Tu única salida son los labels aplicados y el comentario de diagnóstico.
