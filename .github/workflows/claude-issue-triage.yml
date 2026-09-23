@@ -57,6 +57,10 @@ jobs:
                  apoyándote en las invariantes de CLAUDE.md si aplica.
                - **Próximos pasos sugeridos**: qué habría que tocar para implementar la
                  solución (sin escribir código todavía, solo la dirección a seguir).
+               Escribe el comentario en formato Markdown que GitHub pueda interpretar
+               correctamente (encabezados con `##`, listas con `-`, negritas con `**texto**`,
+               bloques de código con acentos graves simples o triples para nombres de
+               función/archivo), para que se renderice bien en la interfaz de issues.
 
             No modifiques ningún archivo del repositorio. No implementes la solución.
             Tu única salida son los labels aplicados y el comentario de diagnóstico.
