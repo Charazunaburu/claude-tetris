@@ -23,9 +23,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
           claude_args: |
-            --allowedTools "Read,Glob,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__update_issue,mcp__github__create_issue_comment"
+            --allowedTools "Read,Glob,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__update_issue,mcp__github__add_issue_comment"
           prompt: |
             Analiza el issue #${{ github.event.issue.number }} del repositorio
             ${{ github.repository }} (un juego de Tetris en JavaScript vanilla; lee
@@ -49,7 +48,7 @@ jobs:
             4. Aplica los labels con mcp__github__update_issue, combinando los labels que
                ya tenía el issue (de get_issue) con los nuevos que elegiste — no elimines
                labels ajenos a esta clasificación que ya estuvieran puestos manualmente.
-            5. Publica un comentario en español con mcp__github__create_issue_comment que
+            5. Publica un comentario en español con mcp__github__add_issue_comment que
                empiece con el marcador oculto `<!-- claude-triage -->` y contenga:
                - **Resumen**: qué reporta o pide el issue, en una frase.
                - **Área/archivos afectados**: funciones y archivos concretos
