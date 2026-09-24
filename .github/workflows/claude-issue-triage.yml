@@ -24,7 +24,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: |
-            --allowedTools "mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__update_issue,mcp__github__create_issue_comment"
+            --allowedTools "Read,Glob,mcp__github__get_issue,mcp__github__get_issue_comments,mcp__github__update_issue,mcp__github__create_issue_comment"
           prompt: |
             Analiza el issue #${{ github.event.issue.number }} del repositorio
             ${{ github.repository }} (un juego de Tetris en JavaScript vanilla; lee
