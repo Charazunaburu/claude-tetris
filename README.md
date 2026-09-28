@@ -42,6 +42,7 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
+- **Toggle de tema claro/oscuro**: modo oscuro por defecto, con un switch en el panel lateral para cambiar a modo claro. La preferencia se recuerda entre sesiones (`localStorage`).
 
 ---
 
@@ -86,6 +87,8 @@ Después abre `http://localhost:8000` en el navegador.
 | `Espacio` | Hard drop (caída instantánea)     |
 | `P`       | Pausar / reanudar                 |
 
+Además, el switch **TEMA** del panel lateral alterna entre modo oscuro (por defecto) y modo claro.
+
 ---
 
 ## Cómo funciona
@@ -102,7 +105,7 @@ Define la estructura visual:
 
 ### 2. `style.css`
 
-Aporta el aspecto visual con estética _dark / retro arcade_: fondo oscuro, tipografía monoespaciada para los marcadores y _backdrop blur_ en los overlays.
+Aporta el aspecto visual con estética _dark / retro arcade_: fondo oscuro, tipografía monoespaciada para los marcadores y _backdrop blur_ en los overlays. Los colores están definidos como *custom properties* de CSS en `:root`, con un set alternativo bajo `body.light-theme` que se activa/desactiva desde `game.js` para soportar el toggle de tema claro/oscuro.
 
 ### 3. `game.js`
 
@@ -117,6 +120,7 @@ Contiene toda la lógica del juego. A grandes rasgos:
 - **Puntuación**: usa la tabla clásica `[0, 100, 300, 500, 800]` multiplicada por el nivel actual; el hard drop suma 2 puntos por celda recorrida y el soft drop 1 punto por fila.
 - **Nivel y velocidad**: el nivel sube cada 10 líneas; la velocidad de caída se calcula como `max(100, 1000 − (level − 1) × 90)` milisegundos.
 - **Ghost piece** (`ghostY`): proyecta la posición final de la pieza actual hacia abajo y la dibuja con `globalAlpha = 0.2`.
+- **Tema claro/oscuro** (`applyTheme`): alterna la clase `light-theme` en `<body>` (que activa las variables CSS del tema claro), actualiza el color de la rejilla del canvas (`gridColor`, usado en `drawGrid`) y guarda la preferencia en `localStorage`.
 
 ### Flujo del juego
 
