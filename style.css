@@ -244,3 +244,120 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+/* ---- Tabla de récords ---- */
+#start-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.highscore-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 220px;
+}
+
+.highscore-empty {
+  font-size: 12px;
+  color: var(--control-text);
+  text-align: center;
+}
+
+.highscore-entry {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--kbd-text);
+}
+
+.highscore-entry.current {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--board-bg);
+}
+
+.highscore-name {
+  font-weight: 700;
+  text-align: left;
+}
+
+.highscore-score {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.best-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.best-stats .panel-section {
+  align-items: center;
+}
+
+.save-score {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.save-score.hidden {
+  display: none;
+}
+
+#name-input {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 13px;
+  width: 130px;
+}
+
+#name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+#save-score-btn,
+#reset-scores-btn,
+#play-btn {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.15s;
+}
+
+#save-score-btn:hover,
+#reset-scores-btn:hover,
+#play-btn:hover {
+  background: var(--accent-hover);
+}
+
+#reset-scores-btn {
+  background: transparent;
+  border: 1px solid var(--kbd-border);
+  color: var(--control-text);
+  padding: 8px 20px;
+  font-size: 12px;
+}
+
+#reset-scores-btn:hover {
+  background: var(--kbd-bg);
+  color: var(--text);
+}

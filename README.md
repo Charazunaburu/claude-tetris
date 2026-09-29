@@ -43,6 +43,8 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
 - **Toggle de tema claro/oscuro**: modo oscuro por defecto, con un switch en el panel lateral para cambiar a modo claro. La preferencia se recuerda entre sesiones (`localStorage`).
+- **Pantalla de inicio** con la tabla de récords: la partida no empieza hasta pulsar **Jugar**.
+- **Tabla de récords local**: top 5 de puntuaciones (nombre + puntos), mejor combo (líneas eliminadas de una vez) y máximo de líneas en una partida, todo persistido en `localStorage`. Si la puntuación de la partida entra en el top 5, se pide un nombre al final. Se puede resetear desde la pantalla de inicio.
 
 ---
 
@@ -101,7 +103,8 @@ Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
 - Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
-- Un overlay para los estados **PAUSA** y **GAME OVER**.
+- Un overlay para los estados **PAUSA** y **GAME OVER**, con la tabla de récords y el formulario para guardar el nombre si la puntuación entra en el top 5.
+- Un overlay `#start-screen`, visible al cargar la página, con la tabla de récords, el mejor combo, el máximo de líneas y los botones **Jugar** / **Resetear records**.
 
 ### 2. `style.css`
 
@@ -121,10 +124,14 @@ Contiene toda la lógica del juego. A grandes rasgos:
 - **Nivel y velocidad**: el nivel sube cada 10 líneas; la velocidad de caída se calcula como `max(100, 1000 − (level − 1) × 90)` milisegundos.
 - **Ghost piece** (`ghostY`): proyecta la posición final de la pieza actual hacia abajo y la dibuja con `globalAlpha = 0.2`.
 - **Tema claro/oscuro** (`applyTheme`): alterna la clase `light-theme` en `<body>` (que activa las variables CSS del tema claro), actualiza el color de la rejilla del canvas (`gridColor`, usado en `drawGrid`) y guarda la preferencia en `localStorage`.
+- **Tabla de récords** (`renderHighScores`, `addHighScore`, `qualifiesForHighScore`): el top 5 se guarda en `localStorage` (`tetris-highscores`) como JSON ordenado por puntuación; el mejor combo (`tetris-best-combo`) se actualiza en `clearLines()` y el máximo de líneas (`tetris-best-lines`) en `endGame()`. La misma función de render se usa en la pantalla de inicio y en el overlay de Game Over.
 
 ### Flujo del juego
 
 ```
+renderStartScreen()                 → pinta #start-screen con récords/combo/líneas
+  └─ click en "Jugar" → oculta #start-screen y llama a init()
+
 init()
   ├─ createBoard()                  → matriz vacía
   ├─ next = randomPiece()
