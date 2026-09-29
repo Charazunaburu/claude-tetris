@@ -260,15 +260,10 @@ function drawBlockPastel(context, x, y, colorIndex, size, alpha) {
 }
 
 function drawBlockPixel(context, x, y, colorIndex, size, alpha) {
-  const color = COLORS[colorIndex];
-  context.globalAlpha = alpha ?? 1;
-  context.fillStyle = color;
-  context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
-  // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
-  context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
+  drawBlockRetro(context, x, y, colorIndex, size, alpha);
   // dithering pattern: 2x2 sub-grid of semi-transparent darker squares
   const half = (size - 2) / 2;
+  context.globalAlpha = alpha ?? 1;
   context.fillStyle = 'rgba(0,0,0,0.18)';
   context.fillRect(x * size + 1, y * size + 1, half, half);
   context.fillRect(x * size + 1 + half, y * size + 1 + half, half, half);
