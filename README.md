@@ -43,6 +43,7 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
 - **Toggle de tema claro/oscuro**: modo oscuro por defecto, con un switch en el panel lateral para cambiar a modo claro. La preferencia se recuerda entre sesiones (`localStorage`).
+- **Skins visuales**: selector en el panel lateral con 4 estilos de dibujado de piezas — Retro, Neón, Pastel y Pixel art. La preferencia se recuerda entre sesiones (`localStorage`).
 
 ---
 
@@ -87,7 +88,7 @@ Después abre `http://localhost:8000` en el navegador.
 | `Espacio` | Hard drop (caída instantánea)     |
 | `P`       | Pausar / reanudar                 |
 
-Además, el switch **TEMA** del panel lateral alterna entre modo oscuro (por defecto) y modo claro.
+Además, el switch **TEMA** del panel lateral alterna entre modo oscuro (por defecto) y modo claro, y el selector **SKIN** cambia el estilo de dibujado de las piezas (Retro, Neón, Pastel, Pixel art).
 
 ---
 
@@ -100,7 +101,7 @@ El juego se compone de tres archivos que cooperan:
 Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
-- Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
+- Un panel lateral con el toggle de tema, el selector de `SKIN`, `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
 - Un overlay para los estados **PAUSA** y **GAME OVER**.
 
 ### 2. `style.css`
@@ -121,6 +122,7 @@ Contiene toda la lógica del juego. A grandes rasgos:
 - **Nivel y velocidad**: el nivel sube cada 10 líneas; la velocidad de caída se calcula como `max(100, 1000 − (level − 1) × 90)` milisegundos.
 - **Ghost piece** (`ghostY`): proyecta la posición final de la pieza actual hacia abajo y la dibuja con `globalAlpha = 0.2`.
 - **Tema claro/oscuro** (`applyTheme`): alterna la clase `light-theme` en `<body>` (que activa las variables CSS del tema claro), actualiza el color de la rejilla del canvas (`gridColor`, usado en `drawGrid`) y guarda la preferencia en `localStorage`.
+- **Skins visuales** (`applySkin`): guarda el skin activo en `currentSkin` y en `localStorage`, y fuerza un redibujado. `drawBlock` es un despachador que delega en `drawBlockRetro`, `drawBlockNeon`, `drawBlockPastel` o `drawBlockPixel` según `currentSkin`, todas con la misma firma `(context, x, y, colorIndex, size, alpha)`.
 
 ### Flujo del juego
 
