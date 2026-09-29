@@ -79,13 +79,15 @@ Después abre `http://localhost:8000` en el navegador.
 
 ## Controles
 
-| Tecla     | Acción                            |
-| --------- | --------------------------------- |
-| `←` / `→` | Mover la pieza horizontalmente    |
-| `↑` o `X` | Rotar la pieza en sentido horario |
-| `↓`       | Soft drop (bajar más rápido)      |
-| `Espacio` | Hard drop (caída instantánea)     |
-| `P`       | Pausar / reanudar                 |
+| Tecla         | Acción                            |
+| ------------- | ---------------------------------- |
+| `←` / `→`     | Mover la pieza horizontalmente    |
+| `↑` o `X`     | Rotar la pieza en sentido horario |
+| `↓`           | Soft drop (bajar más rápido)      |
+| `Espacio`     | Hard drop (caída instantánea)     |
+| `P` / `Esc`   | Pausar / reanudar                 |
+
+Al pausar se abre un **menú de pausa** con las opciones **Reanudar**, **Reiniciar**, **Ver controles** (muestra la lista de controles con un botón **Volver**) y un selector de **Nivel inicial** (1 a 10) que se aplica la próxima vez que se reinicie la partida.
 
 Además, el switch **TEMA** del panel lateral alterna entre modo oscuro (por defecto) y modo claro.
 
@@ -101,7 +103,7 @@ Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
 - Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
-- Un overlay para los estados **PAUSA** y **GAME OVER**.
+- Un overlay para el estado **GAME OVER** y un overlay independiente `#pause-overlay` para el **menú de pausa** (Reanudar, Reiniciar, Ver controles y selector de nivel inicial).
 
 ### 2. `style.css`
 
