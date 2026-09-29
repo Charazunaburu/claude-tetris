@@ -46,7 +46,7 @@ const GRID_COLORS = { dark: '#22222e', light: '#dcdce6' };
 const THEME_STORAGE_KEY = 'tetris-theme';
 const SKIN_STORAGE_KEY = 'tetris-skin';
 
-// mezcla cada canal RGB de COLORS al 50% hacia blanco para el skin pastel
+// blend each RGB channel of COLORS 50% toward white for the pastel skin
 const PASTEL_COLORS = COLORS.map(color => {
   if (!color) return null;
   const r = parseInt(color.slice(1, 3), 16);
@@ -321,6 +321,10 @@ function draw() {
 function drawNext() {
   const NB = 30;
   nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+  if (currentSkin === 'neon') {
+    nextCtx.fillStyle = '#000000';
+    nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
+  }
   const shape = next.shape;
   const offX = Math.floor((4 - shape[0].length) / 2);
   const offY = Math.floor((4 - shape.length) / 2);
